@@ -34,3 +34,18 @@
 
 - 点赞功能
 - 已阅功能
+
+
+
+**Download**:
+
+-    网盘:  http://pan.baidu.com/s/1sl2jafr
+-    Github:  https://github.com/maijz128/Checker-for-Jandan
+
+
+**安装使用**:
+
+
+
+- [如何解决谷歌Chrome浏览器第三方扩展程序已停用](http://jingyan.baidu.com/article/0f5fb099cbe5486d8334ea2c.html)
+
