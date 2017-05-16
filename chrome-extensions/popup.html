@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>popup</title>
+
+    <link rel="stylesheet" type="text/css" href="iconfont/iconfont.css">
+
+    <link href="css/popup/popup.css" rel="stylesheet">
+    <link href="css/popup/header.css" rel="stylesheet">
+    <link href="css/popup/sidebar.css" rel="stylesheet">
+    <link href="css/popup/simple-post.css" rel="stylesheet">
+    <link href="css/popup/tab-hot.css" rel="stylesheet">
+    <link href="css/popup/hot-list-item.css" rel="stylesheet">
+
+
+    <link href="js/lib/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!--<script src="js/lib/bootstrap-3.3.7-dist/jquery-1.12.4/jquery.min.js"></script>-->
+    <script src="js/lib/jquery-3.2.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/lib/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+    <!--<script src="js/lib/vue-csp/dist/vue.min.js"></script>-->
+    <script src="js/lib/vue-csp/dist/vue.js"></script>
+
+
+    <script src="js/message.js"></script>
+    <script src="js/message-name.js"></script>
+
+    <script src="js/backend/model.js"></script>
+    <script src="js/backend/user.js"></script>
+
+    <!-- test -->
+    <script src="test/js/backend/api.js"></script>
+
+    <script src="js/data-saver.js"></script>
+    <script src="js/popup.js"></script>
+</head>
+<body>
+<div id="wrapper">
+
+    <!-- BEGIN header -->
+    <div id="header">
+        <div id="header-logo">
+            <a href="http://www.jandan.net" target="_blank"><img src="images/logo.png"></a>
+        </div>
+
+        <div id="header-content">
+            <div id="header-user-name">{{ userName}}</div>
+
+            <div id="ajax-loader" v-if="onRefresh"><img src="images/ajax-loader.svg"></div>
+            <div id="header-refresh" v-else class="iconfont icon-refresh" v-on:click="refresh()" title="刷新"></div>
+
+            <div id="header-options" class="iconfont icon-options" title="选项" v-on:click="openOptionsHtml()"></div>
+        </div>
+        <div id="header-close-popup" class="iconfont icon-close" title="关闭" v-on:click="closePopup()"></div>
+
+    </div>
+    <!-- END header -->
+
+
+    <!-- BEGIN sidebar -->
+    <div id="sidebar">
+        <ul class="nav nav-tabs">
+            <!--<li class="active"><a href="#simple-post-list" data-toggle="tab">文章</a></li>-->
+
+
+            <li v-for="tabItem in tabButtonList"><!--:class="{active: tabItem.id === activeTabID}">-->
+                <a :href="tabItem.targetID" data-toggle="tab" :tabID='tabItem.id'>{{tabItem.name}}</a>
+                <span>{{getNewCount(tabItem.id)}}</span>
+            </li>
+        </ul>
+    </div>
+    <!-- END sidebar -->
+
+    <!-- BEGIN content -->
+    <div id="content" class="tab-content">
+
+        <div id="simple-post-list" class="tab-pane fade in active">
+            <div class="simple-post" v-for="simplePost in simplePostList">
+
+                <div class="thumbs">
+                    <a :href="simplePost.url" target="_blank">
+                        <img :src="formatURL(simplePost.img)" width="175" height="98">
+                    </a>
+                </div>
+
+                <div class="middle">
+                    <a class="title" :href="simplePost.url" target="_blank">{{ simplePost.title }}</a>
+
+                    <div class="author-tag">
+                        <a :href="simplePost.authorURL" target="_blank">
+                            {{simplePost.author}}</a>
+                        <dian> ·</dian>
+                        <strong>
+                            <a class="tag" :href="simplePost.tagURL" rel="tag" target="_blank">{{simplePost.tag}}</a>
+                        </strong>
+                    </div>
+
+                    <div class="intro"> {{simplePost.intro}}</div>
+
+                    <span class="comment-link" :title="simplePost.createTime"> {{simplePost.commentCount}}</span>
+                    <a class="jandan-zan" title="赞">
+                        <span class="zan-icon">⊙{{ simplePost.likeCount }}</span>
+                    </a>
+                    <span class="id-span" :id="simplePost.id" :title="simplePost.id"></span>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="tab-hot" class="tab-pane fade">
+            <div class="hot-list">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab-hotposts" data-toggle="tab">24H热文</a></li>
+                    <li><a href="#tab-hotlike" data-toggle="tab">三日最赞</a></li>
+                    <li><a href="#tab-hotcomments" data-toggle="tab">一周话题</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="tab-hotposts">
+                        <!--24H热文 列表-->
+                        <ol>
+                            <li v-for="post in hotposts" v-bind:key="post.PVCount">
+                                <a v-bind:href="post.url" v-bind:title="post.PVCount+ '次浏览'"
+                                   target="_blank">
+                                    {{ post.title }}</a>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="tab-pane fade" id="tab-hotlike">
+                        <!--三日最赞 列表-->
+                        <ol>
+                            <li v-for="post in hotlike" v-bind:key="post.likeCount">
+                                <a v-bind:href="post.url" target="_blank">{{ post.title }}</a>
+                                {{ post.likeCount + '赞'}}
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="tab-pane fade" id="tab-hotcomments">
+                        <!--一周话题 列表-->
+                        <ol>
+                            <li v-for="post in hotcomments" v-bind:key="post.commentCount">
+                                <a v-bind:href="post.url" target="_blank">{{ post.title }}</a>
+                                {{ post.commentCount + '评论'}}
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-hotlist-hot" class="tab-pane fade">
+            <hot-list-item v-for="item in hotListItemList" :item="item"></hot-list-item>
+        </div>
+        <div id="tab-hotlist-pic" class="tab-pane fade ">
+            <hot-list-item v-for="item in hotListItemList" :item="item"></hot-list-item>
+        </div>
+
+        <div id="tab-hotlist-girl" class="tab-pane fade">
+            <hot-list-item v-for="item in hotListItemList" :item="item"></hot-list-item>
+        </div>
+        <div id="tab-hotlist-duan" class="tab-pane fade">
+            <hot-list-item v-for="item in hotListItemList" :item="item"></hot-list-item>
+        </div>
+        <div id="tab-hotlist-comment" class="tab-pane fade">
+            <hot-list-item v-for="item in hotListItemList" :item="item"></hot-list-item>
+        </div>
+
+    </div>
+    <!-- END content -->
+
+
+</div>
+</body>
+</html>

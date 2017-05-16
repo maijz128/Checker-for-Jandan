@@ -1,0 +1,42 @@
+* {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, PingFang SC, Source Han Sans CN, Hiragino Sans GB, Microsoft YaHei, WenQuanYi Micro Hei, sans-serif;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+}
+
+body, html {
+    background-color: #fff;
+    margin: 0;
+    height: 100%;
+    min-height: 540px;
+    width: 100%;
+    font-size: 14px;
+    background-color: rgba(250, 250, 250, 0.933333);
+
+}
+
+.body-wrapper {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    transform: translate3d(0px, 0px, 0px);
+}
+
+.body-content {
+    /*background-color: #2b669a;*/
+    /*width: 900px;*/
+    max-width: 1000px;
+    height: 100%;
+    margin: auto;
+    margin-top: 70px;
+}
+
+#page-about {
+    padding: 50px;
+}
+
+a, a:hover, a:link{
+    text-decoration: none;
+}

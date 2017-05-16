@@ -1,0 +1,42 @@
+{
+  "manifest_version": 2,
+  "name": "Checker for Jandan",
+  "version": "0.1",
+  "description": "煎蛋：地球上没有新鲜事 - jandan.net",
+  "icons": {
+    "16": "images/icon16-alpha.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
+  },
+  "browser_action": {
+    "default_title": "Checker for Jandan",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "page": "background.html",
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.jandan.net/*"
+      ],
+      "js": [
+        "js/content_scripts.js"
+      ]
+    }
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "permissions": [
+    "cookies",
+    "notifications",
+    "*://*.jandan.net/*"
+  ],
+  "web_accessible_resources": [
+    "*://*.jandan.net/*.*"
+  ],
+  "options_page": "options.html",
+  "homepage_url": "http://github.com/maijz128/Checker-for-Jandan",
+  "update_url": "https://clients2.google.com/service/update2/crx",
+  "offline_enabled": false
+}

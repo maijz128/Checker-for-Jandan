@@ -1,0 +1,30 @@
+/* 样式 */
+.simple-post {border-color: #EEE;  border-style: solid;  border-width: 0px 0px 1px 0px;  line-height: 2rem}
+.simple-post .title{  font-size: 1.5rem;  font-weight: bold;  color: #DD3333;  text-decoration: none;}
+.simple-post .title:hover{color: #4285F4}
+.simple-post .comment-link { color: #CCC; font-weight:bold; font-size: 16px;font-family: sans-serif; line-height: 1em; text-align: center;}
+.simple-post .author-tag{ color: #999; font-size: 12px; font-weight: normal;}
+.simple-post .author-tag a{color: #999;}
+.simple-post .author-tag a:hover{text-decoration: underline;}
+.simple-post .author-tag .tag {color: #999; font-weight: bold;}
+.simple-post .jandan-zan{cursor: pointer;text-decoration: none;color: #CCC; background-color:transparent;border:none;font-size: 14px; font-weight: normal; line-height: 12px;}
+.simple-post .jandan-zan:visited{color: #FFF;}
+.simple-post .jandan-zan:hover{color: #4285F4;}
+.simple-post .jandan-zaned{cursor: default; color: #FF7F27; } /*点赞之后状态*/
+.simple-post .jandan-zaned:hover{color: #AAA;}
+.simple-post .id-span{width: 20px;  height: 20px;  position: absolute;  float: left;  bottom: 0;  left: 0;  /*background-color: antiquewhite;*/}
+@media  screen and (max-width:768px) {
+    .simple-post .thumbs img{
+        /*width: 20%; height: 20%;*/
+    }
+}
+/* 位置*/
+.simple-post {  padding: 14px 20px;position: relative; }
+.simple-post .thumbs {  padding: 5px 15px 10px 0;   }
+.simple-post .middle{padding: 5px 0; display: inline-block; vertical-align: top;  }
+.simple-post .title{    }
+.simple-post .comment-link { float: right; position: absolute;   padding: 4px 4px;  right: 10px;top: 10px; }
+/*.simple-post .author-tag{ margin: 0.4rem 0 0.4rem 0;}*/
+.simple-post .jandan-zan{bottom: 10px; float: right;  padding: 4px 4px; position: absolute; right: 10px;}
+
+
