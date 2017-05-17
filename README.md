@@ -49,3 +49,4 @@
 
 - [如何解决谷歌Chrome浏览器第三方扩展程序已停用](http://jingyan.baidu.com/article/0f5fb099cbe5486d8334ea2c.html)
 
+![image](http://i.imgur.com/960Dj7G.png)
