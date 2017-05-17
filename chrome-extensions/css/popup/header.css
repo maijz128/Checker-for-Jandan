@@ -59,3 +59,8 @@
    top: .5rem;
    right: .5rem;
 }
+
+#header .versions { margin-left: 14px; }
+#header .versions a, #header .versions a:hover{
+    font-size: 15px;    color: #FF0000; opacity: .5; text-decoration: none;
+}

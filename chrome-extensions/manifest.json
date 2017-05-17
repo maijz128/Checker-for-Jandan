@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Checker for Jandan",
-  "version": "0.2",
+  "version": "0.3",
   "description": "煎蛋：地球上没有新鲜事 - jandan.net",
   "icons": {
     "16": "images/icon16-alpha.png",

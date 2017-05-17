@@ -38,4 +38,14 @@ const MessageName = {
         homeSimplePostList: 'browse-homeSimplePostList'
     },
     refresh: 'refresh',
+    hasNewVer: 'hasNewVer'
+};
+
+const MessageData = {
+    hasNewVer: function () {
+        return {
+            hasNewVer: false,
+            updateURL: ''
+        }
+    },
 };

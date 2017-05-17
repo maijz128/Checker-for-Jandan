@@ -31,8 +31,6 @@
     <script src="js/backend/model.js"></script>
     <script src="js/backend/user.js"></script>
 
-    <!-- test -->
-    <script src="test/js/backend/api.js"></script>
 
     <script src="js/data-saver.js"></script>
     <script src="js/popup.js"></script>
@@ -45,16 +43,18 @@
         <div id="header-logo">
             <a href="http://www.jandan.net" target="_blank"><img src="images/logo.png"></a>
         </div>
-
+        <div class="versions" v-show="hasNewVer">
+            <a :href="updateURL" target="_blank">有新版本</a>
+        </div>
         <div id="header-content">
             <div id="header-user-name">{{ userName}}</div>
 
             <div id="ajax-loader" v-if="onRefresh"><img src="images/ajax-loader.svg"></div>
-            <div id="header-refresh" v-else class="iconfont icon-refresh" v-on:click="refresh()" title="刷新"></div>
+            <div id="header-refresh" v-else class="iconfont icon-refresh" @:click="refresh()" title="刷新"></div>
 
-            <div id="header-options" class="iconfont icon-options" title="选项" v-on:click="openOptionsHtml()"></div>
+            <div id="header-options" class="iconfont icon-options" title="选项" @:click="openOptionsHtml()"></div>
         </div>
-        <div id="header-close-popup" class="iconfont icon-close" title="关闭" v-on:click="closePopup()"></div>
+        <div id="header-close-popup" class="iconfont icon-close" title="关闭" @:click="closePopup()"></div>
 
     </div>
     <!-- END header -->
@@ -64,8 +64,6 @@
     <div id="sidebar">
         <ul class="nav nav-tabs">
             <!--<li class="active"><a href="#simple-post-list" data-toggle="tab">文章</a></li>-->
-
-
             <li v-for="tabItem in tabButtonList"><!--:class="{active: tabItem.id === activeTabID}">-->
                 <a :href="tabItem.targetID" data-toggle="tab" :tabID='tabItem.id'>{{tabItem.name}}</a>
                 <span>{{getNewCount(tabItem.id)}}</span>

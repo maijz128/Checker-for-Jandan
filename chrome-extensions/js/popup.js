@@ -249,7 +249,9 @@ function Header() {
     const self = this;
     self.appHeaderData = {
         userName: '',
-        onRefresh: false
+        onRefresh: false,
+        hasNewVer: false,
+        updateURL: ''
     };
     self.appHeader = new Vue({
         el: '#header',
@@ -277,7 +279,11 @@ function Header() {
     Message.send(MessageName.get.userName, null, function (response) {
         self.appHeaderData.userName = response;
     });
-
+    Message.send(MessageName.hasNewVer, null, function (response) {
+        const msgData = response;
+        self.appHeaderData.hasNewVer = msgData.hasNewVer;
+        self.appHeaderData.updateURL = msgData.updateURL;
+    });
 }
 
 function Sidebar() {
@@ -291,7 +297,7 @@ function Sidebar() {
         6: {id: '6', name: '段子', targetID: '#tab-hotlist-duan'},
         7: {id: '7', name: '优评', targetID: '#tab-hotlist-comment'},
     };
-    self.DEFAULT_ORDER_LIST = [1, 2,  5,3, 4, 6, 7];
+    self.DEFAULT_ORDER_LIST = [1, 2, 5, 3, 4, 6, 7];
 
     self.data = {
         tabButtonList: self.buildTabButtonList(self.DEFAULT_ORDER_LIST),

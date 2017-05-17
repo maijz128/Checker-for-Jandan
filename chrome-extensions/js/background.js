@@ -4,9 +4,20 @@
  * Github: https://github.com/maijz128
  */
 
-const DEFAULT_REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 默认刷新频率：五分钟
+const CURRENT_VERSION = '0.3';
+const DEFAULT_REFRESH_INTERVAL_MS = 10 * 60 * 1000; // 默认刷新频率：十分钟
 const MAX_HomeSimplePostList_Len = 24;
 const background = new Background();
+const verChecker = new VerChecker(CURRENT_VERSION);
+
+//  init
+setTimeout(function () {
+    background.refresh();
+
+    verChecker.safeCheck();
+
+}, 1000);
+
 
 function Background() {
     const self = this;
@@ -98,49 +109,20 @@ function Background() {
 
     //init
     {
-        window.setTimeout(function () {
-            self.user.refreshCookies();
-
-
-            //  初始化计时器
-            {
-                self.timer.setFunc(function () {
-                    self.refresh();
-                });
-                var refreshInterval_ms = self.dataSaver.read(DataSaverKeys.background.timer_refreshInterval_ms);
-                refreshInterval_ms = refreshInterval_ms || DEFAULT_REFRESH_INTERVAL_MS;
-                self.timer.setInterval(refreshInterval_ms);
-                self.timer.enabled(true);
-            }
-
-
-            self.refresh();
-        }, 1000);
+        //  初始化计时器
+        {
+            self.timer.setFunc(function () {
+                self.refresh();
+            });
+            var refreshInterval_ms = self.dataSaver.read(DataSaverKeys.background.timer_refreshInterval_ms);
+            refreshInterval_ms = refreshInterval_ms || DEFAULT_REFRESH_INTERVAL_MS;
+            self.timer.setInterval(refreshInterval_ms);
+            self.timer.enabled(true);
+        }
     }
 
-    // test
-    {
-        // self.badge.setValue(self.BADGE_KEYS.homeHasNewSimplePostCount, 10);
-    }
 }
-/*
- Background.prototype.updateTabPic = function (callback) {
- const self = this;
- const id = Backend.HOTLIST_ID.list_pic;
- self.backend.HotList_HotListItemList(id, function (hotListItemList) {
 
- self.setTabPicData(hotListItemList);
-
- // self._checkHasNewPost(hotListItemList);
-
- if (callback) callback(hotListItemList)
- });
- };
- Background.prototype.setTabPicData = function (hotListItemList) {
- this.data.tabPicData = hotListItemList;
- Message.send(MessageName.update.tabPic, this.data.tabPicData);
- };
- */
 Background.prototype.updateTabHot = function (callback) {
     const self = this;
     const notDone = 'notDone';
@@ -326,3 +308,40 @@ function findDiff(targetList, sourceList) {
 
     return result;
 }
+
+
+function VerChecker(currentVersion) {
+    const self = this;
+    self.userOrOrgName = "maijz128";
+    self.repoName = "Checker-for-Jandan";
+    self.currentVersion = currentVersion || '0.0.1';
+    self.latelyCheckTime = 0;
+    self.CHECK_TIME = 1000 * 60 * 60 * 6;
+    self.msgData = MessageData.hasNewVer();
+    // self.msgData.updateURL = 'https://github.com/maijz128/Checker-for-Jandan/releases';
+
+    Message.on(MessageName.hasNewVer, function (data, sendResponse) {
+        sendResponse(self.msgData);
+        self.safeCheck();
+    });
+}
+VerChecker.prototype.safeCheck = function () {
+    const self = this;
+    const overTime = (Date.now() - self.latelyCheckTime ) > self.CHECK_TIME;
+    if (overTime) {
+        self.latelyCheckTime = Date.now();
+        self._check();
+    }
+};
+VerChecker.prototype._check = function (callback) {
+    const self = this;
+    var checker = UpdateChecker.createNew(self.userOrOrgName, self.repoName, self.currentVersion);
+    checker.hasNewVersion(function (result) {
+        if (result) {
+            console.log('有新版本!');
+            self.msgData.hasNewVer = true;
+            self.msgData.updateURL = checker.getReleasesURL();
+        }
+        if (callback) callback(self.msgData);
+    });
+};
