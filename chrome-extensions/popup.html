@@ -47,14 +47,14 @@
             <a :href="updateURL" target="_blank">有新版本</a>
         </div>
         <div id="header-content">
-            <div id="header-user-name">{{ userName}}</div>
+            <div id="header-user-name">{{userName}}</div>
 
             <div id="ajax-loader" v-if="onRefresh"><img src="images/ajax-loader.svg"></div>
-            <div id="header-refresh" v-else class="iconfont icon-refresh" @:click="refresh()" title="刷新"></div>
+            <div id="header-refresh" v-else class="iconfont icon-refresh" @click="refresh()" title="刷新"></div>
 
-            <div id="header-options" class="iconfont icon-options" title="选项" @:click="openOptionsHtml()"></div>
+            <div id="header-options" class="iconfont icon-options" title="选项" @click="openOptionsHtml()"></div>
         </div>
-        <div id="header-close-popup" class="iconfont icon-close" title="关闭" @:click="closePopup()"></div>
+        <div id="header-close-popup" class="iconfont icon-close" title="关闭" @click="closePopup()"></div>
 
     </div>
     <!-- END header -->
