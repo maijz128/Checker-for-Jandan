@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Checker for Jandan",
-  "version": "0.1",
+  "version": "0.2",
   "description": "煎蛋：地球上没有新鲜事 - jandan.net",
   "icons": {
     "16": "images/icon16-alpha.png",
@@ -21,8 +21,12 @@
       "matches": [
         "*://*.jandan.net/*"
       ],
+      "css": [
+        "css/content_scripts/image-explorer.css"
+      ],
       "js": [
-        "js/content_scripts.js"
+        "js/lib/vue-csp/dist/vue.js",
+        "js/content_scripts/image-explorer.js"
       ]
     }
   ],
