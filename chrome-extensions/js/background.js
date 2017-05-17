@@ -4,7 +4,7 @@
  * Github: https://github.com/maijz128
  */
 
-const CURRENT_VERSION = '0.3';
+const CURRENT_VERSION = '0.3.1';
 const DEFAULT_REFRESH_INTERVAL_MS = 10 * 60 * 1000; // 默认刷新频率：十分钟
 const MAX_HomeSimplePostList_Len = 24;
 const background = new Background();
