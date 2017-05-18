@@ -5,29 +5,19 @@
  */
 
 
-function fetchHtml(url) {
+function fetchHtml_Simple(url) {
+//            var myHeaders = new Headers();
+//            myHeaders.append('Content-Type', 'text/html');
+//            const opt = {
+//                mode: 'no-cors',
+//                method: 'get',
+//                headers: myHeaders
+//            };
     return fetch(url).then(function (response) {
-        // console.log(response);
-        var reader = response.body.getReader();
-        var partialCell = '';
-        var decoder = new TextDecoder();
-
-        function loadData() {
-            return reader.read().then(function (result) {
-                partialCell += decoder.decode(result.value || new Uint8Array, {
-                    stream: !result.done
-                });
-
-                if (result.done) {
-                    return partialCell;
-                } else {
-                    return loadData();
-                }
-            });
-        }
-
-        return loadData();
-    }).then(function (html) {
-        return html;
+        return response.text()
+    }).then(function (text) {
+        return text;
+    }).catch(function (err) {
+        console.error(err)
     });
 }

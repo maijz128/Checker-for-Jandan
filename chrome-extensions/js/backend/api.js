@@ -32,7 +32,7 @@ Backend.prototype._fetchHtml = function (htmlName, callback) {
     const overTime = (Date.now() - self.latelyUpdateTime[htmlName]) >= self.updateInterval[htmlName];
     if (self.cache[htmlName] === null || overTime) {
         const url = self.urlList[htmlName];
-        fetchHtml(url).then(function (html) {
+        fetchHtml_Simple(url).then(function (html) {
             self.cache[htmlName] = html;
             callback(html);
         });

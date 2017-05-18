@@ -335,7 +335,10 @@ function Sidebar() {
             g.dataSaver.save(DataSaverKeys.popup.sidebar.currentShowTabID, tabID);
             switch (targetID) {
                 case '#simple-post-list':
-                    Message.send(MessageName.browse.homeSimplePostList, targetID);
+                    // 延迟一段时间后才把提示去掉
+                    setTimeout(function () {
+                        Message.send(MessageName.browse.homeSimplePostList, targetID);
+                    }, 5000);
                     break;
                 case '#tab-hot':
 
