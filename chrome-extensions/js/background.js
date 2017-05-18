@@ -9,9 +9,22 @@ const DEFAULT_REFRESH_INTERVAL_MS = 10 * 60 * 1000; // 默认刷新频率：十�
 const MAX_HomeSimplePostList_Len = 24;
 const background = new Background();
 const verChecker = new VerChecker(CURRENT_VERSION);
+const timer = new Timer();
 
 //  init
 setTimeout(function () {
+
+    //  初始化计时器
+    {
+        timer.setFunc(function () {
+            background.refresh();
+        });
+        var refreshInterval_ms = background.dataSaver.read(DataSaverKeys.background.timer_refreshInterval_ms);
+        refreshInterval_ms = refreshInterval_ms || DEFAULT_REFRESH_INTERVAL_MS;
+        timer.setInterval(refreshInterval_ms);
+        timer.enabled(true);
+    }
+
     background.refresh();
 
     verChecker.safeCheck();
@@ -24,7 +37,6 @@ function Background() {
     self.backend = new Backend();
     self.user = new User();
     self.badge = new Badge();
-    self.timer = new Timer();
     self.BADGE_KEYS = {
         homeHasNewSimplePostCount: 'homeHasNewSimplePostCount',
         hotList: function (id) {
@@ -75,9 +87,7 @@ function Background() {
 
             self.badge.setValue(self.BADGE_KEYS.homeHasNewSimplePostCount, 0);
 
-            window.setTimeout(function () {
-                self.updateNewList();
-            }, 5000);
+            self.updateNewCount_simplePostList();
         }
     });
 
@@ -85,8 +95,8 @@ function Background() {
         self.refresh();
     });
 
-    Message.on(MessageName.get.newList, function (data, sendResponse) {
-        sendResponse(self.updateNewList());
+    Message.on(MessageName.get.newCount.simplePostList, function (data, sendResponse) {
+        sendResponse(self.updateNewCount_simplePostList());
     });
 
     // HotList On Message
@@ -106,21 +116,6 @@ function Background() {
             });
         }
     }
-
-    //init
-    {
-        //  初始化计时器
-        {
-            self.timer.setFunc(function () {
-                self.refresh();
-            });
-            var refreshInterval_ms = self.dataSaver.read(DataSaverKeys.background.timer_refreshInterval_ms);
-            refreshInterval_ms = refreshInterval_ms || DEFAULT_REFRESH_INTERVAL_MS;
-            self.timer.setInterval(refreshInterval_ms);
-            self.timer.enabled(true);
-        }
-    }
-
 }
 
 Background.prototype.updateTabHot = function (callback) {
@@ -186,7 +181,7 @@ Background.prototype._checkHasNewPost = function (newSimplePostList) {
 
     if (updateCount > 0) {
         self.badge.setValue(self.BADGE_KEYS.homeHasNewSimplePostCount, updateCount);
-        self.updateNewList();
+        self.updateNewCount_simplePostList();
     }
 };
 Background.prototype.setHomeSimplePostList = function (simplePostList) {
@@ -240,14 +235,11 @@ Background.prototype.hotListCheckHasNew = function (id, hotListItemList_old, hot
     }
 };
 
-Background.prototype.updateNewList = function () {
+Background.prototype.updateNewCount_simplePostList = function () {
     const self = this;
-    const data = {
-        BADGE_KEYS: self.BADGE_KEYS,
-        data: self.badge.toData()
-    };
-    Message.send(MessageName.update.newList, data);
-    return data;
+    const count = self.badge.getValue(self.BADGE_KEYS.homeHasNewSimplePostCount);
+    Message.send(MessageName.update.newCount.simplePostList, count);
+    return count;
 };
 
 Background.prototype.refresh = function () {

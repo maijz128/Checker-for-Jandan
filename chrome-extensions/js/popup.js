@@ -302,33 +302,28 @@ function Sidebar() {
     self.data = {
         tabButtonList: self.buildTabButtonList(self.DEFAULT_ORDER_LIST),
         activeTabID: '1',
-        newList: null,
+        newCount: {
+            1: 0
+        },
     };
     self.appSidebar = new Vue({
         el: '#sidebar',
         data: self.data,
         methods: {
             getNewCount: function (tabID) {
-                const newList = self.data.newList;
-                if (newList) {
-                    if (tabID === '1') {
-                        const BADGE_KEYS = newList.BADGE_KEYS;
-                        const data = newList.data;
-                        var count = data[BADGE_KEYS.homeHasNewSimplePostCount].value;
-                        count = parseInt(count);
-                        if (count > 0) {
-                            return count;
-                        }
-                    }
+                tabID = parseInt(tabID);
+                var count = self.data.newCount[tabID];
+                if (count > 0) {
+                    return count;
                 }
             }
         }
     });
 
-    Message.on(MessageName.update.newList, function (data, sendResponse) {
-        self.data.newList = data;
+    Message.on(MessageName.update.newCount.simplePostList, function (data, sendResponse) {
+        self.data.newCount[1] = parseInt(data) || 0;
     });
-    Message.send(MessageName.get.newList);
+    Message.send(MessageName.get.newCount.simplePostList);
 
 
     // on change tab

@@ -56,6 +56,14 @@ Badge.prototype.setValue = function (keyName, value) {
         this.addKey(keyName, value);
     }
 };
+Badge.prototype.getValue = function (keyName) {
+    const item = this._Map[keyName];
+    if (item) {
+        return parseInt(item.value) || 0;
+    } else {
+        return 0;
+    }
+};
 Badge.prototype.setKeyEnabled = function (keyName, enabled) {
     const item = this._Map[keyName];
     if (item) {

@@ -18,7 +18,9 @@ const MessageName = {
             duan: 'u-hl-list-duan',
             comment: 'u-hl-list-comment',
         },
-        newList: 'u-newList'
+        newCount: {
+            simplePostList: 'u-nc-simplePostList'
+        }
     },
     get: {
         userName: 'get-UserName',
@@ -32,7 +34,9 @@ const MessageName = {
             duan: 'g-hl-list-duan',
             comment: 'g-hl-list-comment',
         },
-        newList: 'g-newList'
+        newCount: {
+            simplePostList: 'g-nc-simplePostList'
+        }
     },
     browse: {
         homeSimplePostList: 'browse-homeSimplePostList'
@@ -47,5 +51,5 @@ const MessageData = {
             hasNewVer: false,
             updateURL: ''
         }
-    },
+    }
 };
