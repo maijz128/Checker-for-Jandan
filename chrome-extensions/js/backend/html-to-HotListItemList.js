@@ -53,11 +53,13 @@ HtmlToHotListItemList.prototype._contentHtmlToHotListItemList = function (conten
 
     const acv_authorList = div.getElementsByClassName('acv_author');
     const acv_commentList = div.getElementsByClassName('acv_comment');
+    const jandan_voteList = div.getElementsByClassName('jandan-vote');
 
     for (var i = 0; i < acv_authorList.length; i++) {
         const item = new HotListItem();
         self._acv_authorInHotListItem(acv_authorList[i], item);
         self._acv_commentInHotListItem(acv_commentList[i], item);
+        self._jandan_vote(jandan_voteList[i], item);
 
         result.push(item);
     }
@@ -110,29 +112,23 @@ HtmlToHotListItemList.prototype._acv_commentInHotListItem = function (acv_commen
         hotListItem.description += p_list[i].innerText;
     }
 
-    const vote_list = acv_comment.getElementsByClassName('vote');
-    if (vote_list.length > 0) {
-        const vote_id = vote_list[0].getAttribute('id');
-        hotListItem.id = vote_id.replace('vote-', '');
 
+    return hotListItem;
+};
 
-        // ooxx
-        const cos_support_id = 'cos_support-' + hotListItem.id;
-        const cos_unsupport_id = 'cos_unsupport-' + hotListItem.id;
-        for (var i = 0; i < vote_list[0].childNodes.length; i++) {
-            const node = vote_list[0].childNodes[i];
-            if (node.nodeType === 1) {
-                const nodeID = node.getAttribute('id');
-                if (nodeID === cos_support_id) {
-                    hotListItem.ooCount = node.innerText;
+HtmlToHotListItemList.prototype._jandan_vote = function (jandan_voteList, hotListItem) {
 
-                } else if (nodeID === cos_unsupport_id) {
-                    hotListItem.xxCount = node.innerText;
+    if (jandan_voteList.childNodes.length > 0) {
+        const listNodes = jandan_voteList.getElementsByClassName('comment-like');
+        const vote_id = listNodes[0].getAttribute('data-id');
+        hotListItem.id = vote_id.trim();
+    }
 
-                }
-            }
-
-        }
+    // ooxx
+    const spans = jandan_voteList.getElementsByTagName('span');
+    if (spans.length > 0) {
+        hotListItem.ooCount = spans[0].innerText.trim();
+        hotListItem.xxCount = spans[1].innerText.trim();
     }
 
     return hotListItem;

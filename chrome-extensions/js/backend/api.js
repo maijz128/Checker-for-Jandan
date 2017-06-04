@@ -87,16 +87,6 @@ Backend.prototype.getHotTab_Posts_SimplePostList = function (callback) {
     });
 };
 
-
-// Backend.prototype.HotListPic_HotListItemList = function (callback) {
-//     const self = this;
-//     self.fetchHomeHtml(function (html) {
-//         // const _html = HtmlToTabPic.tabPicHtml(html);
-//         // const list = HtmlToTabPic.tabPicHtmlToHotListItemList(_html);
-//         const list = self.parser.hot_list_pic.parse(html);
-//         callback(list);
-//     });
-// };
 Backend.prototype.HotList_HotListItemList = function (id, callback) {
     const self = this;
     self.fetchHomeHtml(function (html) {

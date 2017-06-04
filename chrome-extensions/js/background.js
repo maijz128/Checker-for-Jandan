@@ -4,7 +4,7 @@
  * Github: https://github.com/maijz128
  */
 
-const CURRENT_VERSION = '0.3.1';
+const CURRENT_VERSION = '0.3.2';
 const DEFAULT_REFRESH_INTERVAL_MS = 10 * 60 * 1000; // 默认刷新频率：十分钟
 const MAX_HomeSimplePostList_Len = 24;
 const background = new Background();
@@ -87,7 +87,10 @@ function Background() {
 
             self.badge.setValue(self.BADGE_KEYS.homeHasNewSimplePostCount, 0);
 
-            self.updateNewCount_simplePostList();
+            // 延迟一段时间后才更新提示
+            setTimeout(function () {
+                self.updateNewCount_simplePostList();
+            }, 5000);
         }
     });
 
