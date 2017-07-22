@@ -1,4 +1,4 @@
-# Checker-for-Jandan
+# [已废弃]Checker-for-Jandan
 
 **UpdateTime**: 2017-05-18
 
@@ -16,7 +16,6 @@
 如果官方不喜欢本人使用相关资源的话，请联系我，邮箱：maijz127@gmail.com
 
 本人“煎蛋”ID：MaiJZ
-
 
 ----------
 
